@@ -181,11 +181,19 @@ interface TaskCardProps {
 
 function TaskCard({ task, users, getPriorityColor, isDragging = false }: TaskCardProps) {
   const assignedUsers = users.filter((u) => task.assigneeIds.includes(u.id));
+  const isOverdue = task.deadline && new Date(task.deadline) < new Date() && task.status !== 'done';
+
+  const priorityLabels: Record<string, string> = {
+    critical: 'Kritisch',
+    high: 'Hoch',
+    medium: 'Mittel',
+    low: 'Niedrig',
+  };
 
   return (
     <Card
-      className={`bg-gray-900 border-gray-800 hover:border-gray-700 cursor-pointer transition-all ${
-        isDragging ? 'opacity-50 rotate-2' : ''
+      className={`bg-gray-900 border-gray-800 hover:border-gray-700 hover:shadow-lg cursor-pointer transition-all ${
+        isDragging ? 'opacity-50 rotate-2 scale-105' : ''
       }`}
       draggable
       onDragStart={(e) => {
@@ -201,18 +209,35 @@ function TaskCard({ task, users, getPriorityColor, isDragging = false }: TaskCar
       }}
     >
       <CardHeader className="p-4 pb-3">
-        <div className="flex items-start justify-between gap-2">
-          <CardTitle className="text-sm font-medium text-white line-clamp-2">
+        <div className="flex items-start justify-between gap-3 mb-2">
+          <CardTitle className="text-sm font-medium text-white line-clamp-2 flex-1">
             {task.title}
           </CardTitle>
-          <div className={`w-2 h-2 rounded-full flex-shrink-0 ${getPriorityColor(task.priority)}`} />
+          <Badge
+            className={`text-xs px-2 py-0.5 flex-shrink-0 ${getPriorityColor(task.priority)} border-0`}
+          >
+            {priorityLabels[task.priority]}
+          </Badge>
         </div>
-      </CardHeader>
-      <CardContent className="p-4 pt-0">
         {task.description && (
-          <p className="text-xs text-gray-400 mb-3 line-clamp-2">{task.description}</p>
+          <p className="text-xs text-gray-400 line-clamp-2 mt-2">{task.description}</p>
         )}
-        <div className="flex items-center justify-between">
+      </CardHeader>
+      <CardContent className="p-4 pt-0 space-y-3">
+        {/* Labels */}
+        {task.labelIds.length > 0 && (
+          <div className="flex flex-wrap gap-1">
+            {task.labelIds.slice(0, 2).map((labelId) => (
+              <Badge key={labelId} variant="outline" className="text-xs px-2 py-0">
+                Label
+              </Badge>
+            ))}
+          </div>
+        )}
+
+        {/* Footer */}
+        <div className="flex items-center justify-between pt-2 border-t border-gray-800">
+          {/* Assignees */}
           <div className="flex -space-x-2">
             {assignedUsers.slice(0, 3).map((user) => (
               <Avatar
@@ -227,14 +252,31 @@ function TaskCard({ task, users, getPriorityColor, isDragging = false }: TaskCar
                 +{assignedUsers.length - 3}
               </div>
             )}
+            {assignedUsers.length === 0 && (
+              <div className="h-6 w-6 rounded-full bg-gray-800 border border-gray-700 flex items-center justify-center">
+                <span className="text-xs text-gray-500">?</span>
+              </div>
+            )}
           </div>
+
+          {/* Deadline */}
           {task.deadline && (
-            <span className="text-xs text-gray-500">
-              {new Date(task.deadline).toLocaleDateString('de-DE', {
-                day: '2-digit',
-                month: '2-digit',
-              })}
-            </span>
+            <div className="flex items-center gap-1.5">
+              <span
+                className={`text-xs font-medium ${
+                  isOverdue
+                    ? 'text-red-500'
+                    : new Date(task.deadline).getTime() - new Date().getTime() < 2 * 24 * 60 * 60 * 1000
+                    ? 'text-yellow-500'
+                    : 'text-gray-500'
+                }`}
+              >
+                {new Date(task.deadline).toLocaleDateString('de-DE', {
+                  day: '2-digit',
+                  month: 'short',
+                })}
+              </span>
+            </div>
           )}
         </div>
       </CardContent>
