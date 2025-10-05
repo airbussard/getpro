@@ -129,7 +129,7 @@ export interface Activity {
   taskId?: string;
   userId: string;
   action: ActivityAction;
-  metadata?: Record<string, any>;
+  metadata?: Record<string, unknown>;
   createdAt: string;
 }
 

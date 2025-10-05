@@ -2,7 +2,7 @@
 
 import { use, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { DndContext, DragEndEvent, DragOverlay, DragStartEvent, PointerSensor, useSensor, useSensors, useDraggable, useDroppable } from '@dnd-kit/core';
+import { DndContext, DragEndEvent, DragOverlay, DragStartEvent, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
 import { Plus, ArrowLeft, Filter, Search } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -10,7 +10,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Avatar } from '@/components/ui/avatar';
 import { useStore } from '@/store';
-import { Task, TaskStatus } from '@/types';
+import { Task, TaskStatus, User } from '@/types';
 
 interface PageProps {
   params: Promise<{ id: string }>;
@@ -174,7 +174,7 @@ export default function KanbanBoardPage({ params }: PageProps) {
 
 interface TaskCardProps {
   task: Task;
-  users: ReturnType<typeof useStore>['users'];
+  users: User[];
   getPriorityColor: (priority: string) => string;
   isDragging?: boolean;
 }
