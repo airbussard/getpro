@@ -20,7 +20,8 @@ git add .
 git commit -m "Beschreibung der Änderungen"
 git push origin main
 
-# Caprover baut automatisch nach jedem Push
+# WICHTIG: Nach jedem Push MUSS der Caprover Build getriggert werden!
+curl -X POST "https://captain.immogear.de/api/v2/user/apps/webhooks/triggerbuild?namespace=captain&token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InRva2VuVmVyc2lvbiI6ImMwMzVlZmJmLTBmNDYtNGUzYS1hZTliLTQ2MDJiZWM4ZjJkYiIsImFwcE5hbWUiOiJnZXRlbWVyZ2VuY2Vwcm8iLCJuYW1lc3BhY2UiOiJjYXB0YWluIn0sImlhdCI6MTc1OTY4NDkxM30.cGeLL2oCBL62StXHtAfSASEuOODX3nCVYz03RtNghu4"
 ```
 
 ### Branch-Strategie
