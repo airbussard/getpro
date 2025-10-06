@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { User, Lock, Bell, Palette, Mail, Shield } from 'lucide-react';
+import { User, Lock, Bell, Mail, Shield } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -11,8 +11,8 @@ import { Badge } from '@/components/ui/badge';
 import { useStore } from '@/store';
 
 export default function SettingsPage() {
-  const { currentUser, toggleTheme, theme } = useStore();
-  const [activeTab, setActiveTab] = useState<'profile' | 'security' | 'notifications' | 'appearance'>('profile');
+  const { currentUser } = useStore();
+  const [activeTab, setActiveTab] = useState<'profile' | 'security' | 'notifications'>('profile');
 
   if (!currentUser) return null;
 
@@ -20,7 +20,7 @@ export default function SettingsPage() {
     { id: 'profile', label: 'Profil', icon: User },
     { id: 'security', label: 'Sicherheit', icon: Lock },
     { id: 'notifications', label: 'Benachrichtigungen', icon: Bell },
-    { id: 'appearance', label: 'Darstellung', icon: Palette },
+    // { id: 'appearance', label: 'Darstellung', icon: Palette }, // Temporarily disabled
   ] as const;
 
   return (

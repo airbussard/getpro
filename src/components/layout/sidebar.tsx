@@ -7,8 +7,6 @@ import {
   FolderKanban,
   LogOut,
   Settings,
-  Moon,
-  Sun,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
@@ -18,7 +16,7 @@ import { useStore } from '@/store';
 export function Sidebar() {
   const pathname = usePathname();
   const router = useRouter();
-  const { currentUser, logout, theme, toggleTheme } = useStore();
+  const { currentUser, logout } = useStore();
 
   const handleLogout = () => {
     logout();
@@ -80,18 +78,7 @@ export function Sidebar() {
 
       {/* User Section */}
       <div className="p-4 border-t border-gray-200 dark:border-gray-800 space-y-2">
-        <Button
-          variant="ghost"
-          className="w-full justify-start text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800"
-          onClick={toggleTheme}
-        >
-          {theme === 'dark' ? (
-            <Sun className="mr-3 h-5 w-5" />
-          ) : (
-            <Moon className="mr-3 h-5 w-5" />
-          )}
-          {theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
-        </Button>
+        {/* Theme toggle temporarily disabled - dark mode only */}
 
         <div className="flex items-center gap-3 p-2 rounded-lg bg-gray-100 dark:bg-gray-800">
           <Avatar src={currentUser.avatarUrl} fallback={currentUser.fullName} />

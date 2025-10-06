@@ -505,7 +505,8 @@ export const useStore = create<AppState>()(
       },
 
       toggleTheme: () => {
-        set((state) => ({ theme: state.theme === 'dark' ? 'light' : 'dark' }));
+        // Temporarily disabled - dark mode only
+        // set((state) => ({ theme: state.theme === 'dark' ? 'light' : 'dark' }));
       },
 
       // Helper Functions
