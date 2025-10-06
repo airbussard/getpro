@@ -9,7 +9,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "EmergencyPro - Project Management",
+  title: "getEmergencePro - Project Management",
   description: "Modern project management for individuals and small teams",
 };
 

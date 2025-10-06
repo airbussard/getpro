@@ -45,7 +45,7 @@ export default function LandingPage() {
             <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center font-bold">
               E
             </div>
-            <span className="text-xl font-bold">EmergencyPro</span>
+            <span className="text-xl font-bold">getEmergencePro</span>
           </div>
           <div className="flex items-center gap-4">
             <Link href="/login">
@@ -72,7 +72,7 @@ export default function LandingPage() {
             Projektmanagement für Teams
           </h1>
           <p className="text-xl md:text-2xl text-gray-400 mb-10 max-w-2xl mx-auto">
-            EmergencyPro ist die moderne Lösung für Projektmanagement, Zeiterfassung und
+            getEmergencePro ist die moderne Lösung für Projektmanagement, Zeiterfassung und
             Team-Kollaboration. Schlank, schnell und leistungsstark.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -148,7 +148,7 @@ export default function LandingPage() {
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">Bereit loszulegen?</h2>
           <p className="text-xl text-gray-400 mb-8">
-            Teste EmergencyPro jetzt kostenlos. Keine Kreditkarte erforderlich.
+            Teste getEmergencePro jetzt kostenlos. Keine Kreditkarte erforderlich.
           </p>
           <Link href="/register">
             <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white text-lg px-8">
@@ -162,7 +162,7 @@ export default function LandingPage() {
       {/* Footer */}
       <footer className="border-t border-gray-800 mt-20">
         <div className="container mx-auto px-4 py-8 text-center text-gray-500">
-          <p>&copy; 2024 EmergencyPro by getemergence.com. Phase 1 - Dummy UI.</p>
+          <p>&copy; 2024 getEmergencePro by getemergence.com. Phase 1 - Dummy UI.</p>
         </div>
       </footer>
     </div>
