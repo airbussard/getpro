@@ -66,7 +66,7 @@ export default function KanbanBoardPage({ params }: PageProps) {
   };
 
   if (!project) {
-    return <div className="text-white">Projekt nicht gefunden</div>;
+    return <div className="text-gray-900 dark:text-white">Projekt nicht gefunden</div>;
   }
 
   const getPriorityColor = (priority: string) => {
@@ -92,19 +92,18 @@ export default function KanbanBoardPage({ params }: PageProps) {
           <Button
             variant="ghost"
             size="icon"
-            className="text-gray-400 hover:text-white"
             onClick={() => router.push('/dashboard')}
           >
             <ArrowLeft className="h-5 w-5" />
           </Button>
           <div>
-            <h1 className="text-3xl font-bold text-white">{project.name}</h1>
+            <h1 className="text-3xl font-bold text-gray-900 dark:text-white">{project.name}</h1>
             {project.description && (
-              <p className="text-gray-400 mt-1">{project.description}</p>
+              <p className="text-gray-600 dark:text-gray-400 mt-1">{project.description}</p>
             )}
           </div>
         </div>
-        <Button className="bg-blue-600 hover:bg-blue-700">
+        <Button>
           <Plus className="mr-2 h-4 w-4" />
           Neue Task
         </Button>
@@ -116,12 +115,12 @@ export default function KanbanBoardPage({ params }: PageProps) {
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-500" />
           <Input
             placeholder="Tasks durchsuchen..."
-            className="pl-10 bg-gray-900 border-gray-800 text-white"
+            className="pl-10"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
         </div>
-        <Button variant="outline" className="border-gray-800 text-gray-400">
+        <Button variant="outline">
           <Filter className="mr-2 h-4 w-4" />
           Filter
         </Button>
@@ -141,16 +140,16 @@ export default function KanbanBoardPage({ params }: PageProps) {
               <div key={column.id} className="flex flex-col">
                 <div className="mb-4">
                   <div className="flex items-center justify-between mb-2">
-                    <h2 className="text-lg font-semibold text-white">{column.title}</h2>
+                    <h2 className="text-lg font-semibold text-gray-900 dark:text-white">{column.title}</h2>
                     <Badge variant="secondary" className="text-xs">
                       {columnTasks.length}
                     </Badge>
                   </div>
-                  <div className="h-1 bg-gray-800 rounded-full" />
+                  <div className="h-1 bg-gray-200 dark:bg-gray-800 rounded-full" />
                 </div>
 
                 <div
-                  className="flex-1 space-y-3 min-h-[200px] p-2 rounded-lg bg-gray-900/30"
+                  className="flex-1 space-y-3 min-h-[200px] p-2 rounded-lg bg-gray-100/50 dark:bg-gray-900/30"
                   data-column-id={column.id}
                 >
                   {columnTasks.map((task) => (
@@ -192,7 +191,7 @@ function TaskCard({ task, users, getPriorityColor, isDragging = false }: TaskCar
 
   return (
     <Card
-      className={`bg-gray-900 border-gray-800 hover:border-gray-700 hover:shadow-lg cursor-pointer transition-all ${
+      className={`hover:border-gray-300 dark:hover:border-gray-700 hover:shadow-lg cursor-pointer transition-all ${
         isDragging ? 'opacity-50 rotate-2 scale-105' : ''
       }`}
       draggable
@@ -210,7 +209,7 @@ function TaskCard({ task, users, getPriorityColor, isDragging = false }: TaskCar
     >
       <CardHeader className="p-4 pb-3">
         <div className="flex items-start justify-between gap-3 mb-2">
-          <CardTitle className="text-sm font-medium text-white line-clamp-2 flex-1">
+          <CardTitle className="text-sm font-medium text-gray-900 dark:text-white line-clamp-2 flex-1">
             {task.title}
           </CardTitle>
           <Badge
@@ -220,7 +219,7 @@ function TaskCard({ task, users, getPriorityColor, isDragging = false }: TaskCar
           </Badge>
         </div>
         {task.description && (
-          <p className="text-xs text-gray-400 line-clamp-2 mt-2">{task.description}</p>
+          <p className="text-xs text-gray-600 dark:text-gray-400 line-clamp-2 mt-2">{task.description}</p>
         )}
       </CardHeader>
       <CardContent className="p-4 pt-0 space-y-3">
@@ -236,7 +235,7 @@ function TaskCard({ task, users, getPriorityColor, isDragging = false }: TaskCar
         )}
 
         {/* Footer */}
-        <div className="flex items-center justify-between pt-2 border-t border-gray-800">
+        <div className="flex items-center justify-between pt-2 border-t border-gray-200 dark:border-gray-800">
           {/* Assignees */}
           <div className="flex -space-x-2">
             {assignedUsers.slice(0, 3).map((user) => (
@@ -244,17 +243,17 @@ function TaskCard({ task, users, getPriorityColor, isDragging = false }: TaskCar
                 key={user.id}
                 src={user.avatarUrl}
                 fallback={user.fullName}
-                className="h-6 w-6 border-2 border-gray-900"
+                className="h-6 w-6 border-2 border-white dark:border-gray-900"
               />
             ))}
             {assignedUsers.length > 3 && (
-              <div className="h-6 w-6 rounded-full bg-gray-800 border-2 border-gray-900 flex items-center justify-center text-xs text-gray-400">
+              <div className="h-6 w-6 rounded-full bg-gray-200 dark:bg-gray-800 border-2 border-white dark:border-gray-900 flex items-center justify-center text-xs text-gray-600 dark:text-gray-400">
                 +{assignedUsers.length - 3}
               </div>
             )}
             {assignedUsers.length === 0 && (
-              <div className="h-6 w-6 rounded-full bg-gray-800 border border-gray-700 flex items-center justify-center">
-                <span className="text-xs text-gray-500">?</span>
+              <div className="h-6 w-6 rounded-full bg-gray-200 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 flex items-center justify-center">
+                <span className="text-xs text-gray-700 dark:text-gray-500">?</span>
               </div>
             )}
           </div>
@@ -268,7 +267,7 @@ function TaskCard({ task, users, getPriorityColor, isDragging = false }: TaskCar
                     ? 'text-red-500'
                     : new Date(task.deadline).getTime() - new Date().getTime() < 2 * 24 * 60 * 60 * 1000
                     ? 'text-yellow-500'
-                    : 'text-gray-500'
+                    : 'text-gray-700 dark:text-gray-500'
                 }`}
               >
                 {new Date(task.deadline).toLocaleDateString('de-DE', {

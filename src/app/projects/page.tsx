@@ -27,12 +27,12 @@ export default function ProjectsPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-white">Projekte</h1>
-          <p className="text-gray-400 mt-1">
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Projekte</h1>
+          <p className="text-gray-600 dark:text-gray-400 mt-1">
             Verwalte alle deine Projekte an einem Ort
           </p>
         </div>
-        <Button className="bg-blue-600 hover:bg-blue-700">
+        <Button>
           <Plus className="mr-2 h-4 w-4" />
           Neues Projekt
         </Button>
@@ -44,24 +44,23 @@ export default function ProjectsPage() {
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-500" />
           <Input
             placeholder="Projekte durchsuchen..."
-            className="pl-10 bg-gray-900 border-gray-800 text-white"
+            className="pl-10"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
         </div>
         <Button
           variant={showArchived ? 'default' : 'outline'}
-          className={showArchived ? 'bg-blue-600' : 'border-gray-800 text-gray-400'}
           onClick={() => setShowArchived(!showArchived)}
         >
           <Archive className="mr-2 h-4 w-4" />
           {showArchived ? 'Aktive anzeigen' : 'Archivierte anzeigen'}
         </Button>
         <div className="flex gap-2">
-          <Button variant="outline" size="icon" className="border-gray-800 text-gray-400">
+          <Button variant="outline" size="icon">
             <Grid3x3 className="h-4 w-4" />
           </Button>
-          <Button variant="ghost" size="icon" className="text-gray-600">
+          <Button variant="ghost" size="icon">
             <List className="h-4 w-4" />
           </Button>
         </div>
@@ -69,12 +68,12 @@ export default function ProjectsPage() {
 
       {/* Projects Grid */}
       {filteredProjects.length === 0 ? (
-        <Card className="bg-gray-900 border-gray-800">
+        <Card>
           <CardContent className="flex flex-col items-center justify-center py-16">
-            <div className="w-16 h-16 bg-gray-800 rounded-full flex items-center justify-center mb-4">
-              <Grid3x3 className="h-8 w-8 text-gray-600" />
+            <div className="w-16 h-16 bg-gray-200 dark:bg-gray-800 rounded-full flex items-center justify-center mb-4">
+              <Grid3x3 className="h-8 w-8 text-gray-600 dark:text-gray-600" />
             </div>
-            <p className="text-gray-400 mb-4">
+            <p className="text-gray-600 dark:text-gray-400 mb-4">
               {searchQuery
                 ? 'Keine Projekte gefunden'
                 : showArchived
@@ -82,7 +81,7 @@ export default function ProjectsPage() {
                 : 'Noch keine Projekte vorhanden'}
             </p>
             {!searchQuery && !showArchived && (
-              <Button className="bg-blue-600 hover:bg-blue-700">
+              <Button>
                 <Plus className="mr-2 h-4 w-4" />
                 Erstes Projekt erstellen
               </Button>
@@ -103,7 +102,7 @@ export default function ProjectsPage() {
             return (
               <Card
                 key={project.id}
-                className="bg-gray-900 border-gray-800 hover:border-gray-700 transition-all cursor-pointer group"
+                className="hover:border-gray-300 dark:hover:border-gray-700 transition-all cursor-pointer group"
                 onClick={() => router.push(`/projects/${project.id}/board`)}
               >
                 <CardHeader>
@@ -127,11 +126,11 @@ export default function ProjectsPage() {
                       )}
                     </div>
                   </div>
-                  <CardTitle className="text-xl text-white group-hover:text-blue-400 transition-colors">
+                  <CardTitle className="text-xl text-gray-900 dark:text-white group-hover:text-blue-500 dark:group-hover:text-blue-400 transition-colors">
                     {project.name}
                   </CardTitle>
                   {project.description && (
-                    <CardDescription className="text-gray-400 line-clamp-2 mt-2">
+                    <CardDescription className="text-gray-600 dark:text-gray-400 line-clamp-2 mt-2">
                       {project.description}
                     </CardDescription>
                   )}
@@ -140,10 +139,10 @@ export default function ProjectsPage() {
                   {/* Progress */}
                   <div className="space-y-2">
                     <div className="flex items-center justify-between text-sm">
-                      <span className="text-gray-400">Fortschritt</span>
-                      <span className="text-white font-medium">{Math.round(progress)}%</span>
+                      <span className="text-gray-600 dark:text-gray-400">Fortschritt</span>
+                      <span className="text-gray-900 dark:text-white font-medium">{Math.round(progress)}%</span>
                     </div>
-                    <div className="w-full bg-gray-800 rounded-full h-2">
+                    <div className="w-full bg-gray-200 dark:bg-gray-800 rounded-full h-2">
                       <div
                         className="bg-blue-600 h-2 rounded-full transition-all"
                         style={{ width: `${progress}%` }}
@@ -155,18 +154,18 @@ export default function ProjectsPage() {
                   <div className="flex items-center justify-between text-sm">
                     <div className="flex items-center gap-4">
                       <div>
-                        <span className="text-gray-500">Tasks: </span>
-                        <span className="text-white font-medium">{totalCount}</span>
+                        <span className="text-gray-700 dark:text-gray-500">Tasks: </span>
+                        <span className="text-gray-900 dark:text-white font-medium">{totalCount}</span>
                       </div>
                       <div>
-                        <span className="text-gray-500">Erledigt: </span>
-                        <span className="text-green-500 font-medium">{completedCount}</span>
+                        <span className="text-gray-700 dark:text-gray-500">Erledigt: </span>
+                        <span className="text-green-600 dark:text-green-500 font-medium">{completedCount}</span>
                       </div>
                     </div>
                   </div>
 
                   {/* Features */}
-                  <div className="flex flex-wrap gap-2 pt-2 border-t border-gray-800">
+                  <div className="flex flex-wrap gap-2 pt-2 border-t border-gray-200 dark:border-gray-800">
                     {project.settings.timeTracking && (
                       <Badge variant="outline" className="text-xs">
                         Zeiterfassung
@@ -192,7 +191,7 @@ export default function ProjectsPage() {
 
       {/* Stats Footer */}
       {filteredProjects.length > 0 && (
-        <div className="flex items-center justify-between text-sm text-gray-500 pt-4">
+        <div className="flex items-center justify-between text-sm text-gray-700 dark:text-gray-500 pt-4">
           <span>
             {filteredProjects.length} {filteredProjects.length === 1 ? 'Projekt' : 'Projekte'}
             {searchQuery && ' gefunden'}
