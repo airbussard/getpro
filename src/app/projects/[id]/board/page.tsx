@@ -6,11 +6,14 @@ import { DndContext, DragEndEvent, DragOverlay, DragStartEvent, PointerSensor, u
 import { Plus, ArrowLeft, Filter, Search } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Avatar } from '@/components/ui/avatar';
+import { Modal, ModalContent, ModalHeader, ModalTitle, ModalBody, ModalFooter, ModalClose } from '@/components/ui/modal';
 import { useStore } from '@/store';
-import { Task, TaskStatus, User } from '@/types';
+import { Task, TaskStatus, User, TaskPriority } from '@/types';
 
 interface PageProps {
   params: Promise<{ id: string }>;
@@ -21,9 +24,17 @@ export default function KanbanBoardPage({ params }: PageProps) {
   const projectId = resolvedParams.id;
   const router = useRouter();
 
-  const { getProjectById, getProjectTasks, updateTask, users } = useStore();
+  const { getProjectById, getProjectTasks, updateTask, createTask, currentUser, users } = useStore();
   const [activeTask, setActiveTask] = useState<Task | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+  const [newTask, setNewTask] = useState({
+    title: '',
+    description: '',
+    priority: 'medium' as TaskPriority,
+    status: 'todo' as TaskStatus,
+    deadline: '',
+  });
 
   const project = getProjectById(projectId);
   const allTasks = getProjectTasks(projectId);
@@ -65,6 +76,32 @@ export default function KanbanBoardPage({ params }: PageProps) {
     updateTask(taskId, { status: newStatus });
   };
 
+  const handleCreateTask = () => {
+    if (!newTask.title.trim() || !currentUser) return;
+
+    createTask({
+      projectId,
+      title: newTask.title.trim(),
+      description: newTask.description.trim() || undefined,
+      status: newTask.status,
+      priority: newTask.priority,
+      deadline: newTask.deadline || undefined,
+      createdBy: currentUser.id,
+      assigneeIds: [],
+      labelIds: [],
+    });
+
+    // Reset form and close modal
+    setNewTask({
+      title: '',
+      description: '',
+      priority: 'medium',
+      status: 'todo',
+      deadline: '',
+    });
+    setIsCreateModalOpen(false);
+  };
+
   if (!project) {
     return <div className="text-gray-900 dark:text-white">Projekt nicht gefunden</div>;
   }
@@ -103,7 +140,7 @@ export default function KanbanBoardPage({ params }: PageProps) {
             )}
           </div>
         </div>
-        <Button>
+        <Button onClick={() => setIsCreateModalOpen(true)}>
           <Plus className="mr-2 h-4 w-4" />
           Neue Task
         </Button>
@@ -167,6 +204,100 @@ export default function KanbanBoardPage({ params }: PageProps) {
           ) : null}
         </DragOverlay>
       </DndContext>
+
+      {/* Create Task Modal */}
+      <Modal open={isCreateModalOpen} onOpenChange={setIsCreateModalOpen}>
+        <ModalContent size="lg">
+          <ModalClose onClose={() => setIsCreateModalOpen(false)} />
+          <ModalHeader>
+            <ModalTitle className="text-gray-900 dark:text-white">Neue Task erstellen</ModalTitle>
+          </ModalHeader>
+          <ModalBody>
+            <div className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="task-title" className="text-gray-700 dark:text-gray-200">
+                  Titel *
+                </Label>
+                <Input
+                  id="task-title"
+                  value={newTask.title}
+                  onChange={(e) => setNewTask({ ...newTask, title: e.target.value })}
+                  placeholder="z.B. Feature implementieren"
+                  autoFocus
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="task-description" className="text-gray-700 dark:text-gray-200">
+                  Beschreibung
+                </Label>
+                <Textarea
+                  id="task-description"
+                  value={newTask.description}
+                  onChange={(e) => setNewTask({ ...newTask, description: e.target.value })}
+                  placeholder="Beschreibe die Task..."
+                  rows={3}
+                />
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="task-priority" className="text-gray-700 dark:text-gray-200">
+                    Priorität
+                  </Label>
+                  <select
+                    id="task-priority"
+                    value={newTask.priority}
+                    onChange={(e) => setNewTask({ ...newTask, priority: e.target.value as TaskPriority })}
+                    className="w-full h-10 px-3 rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-white"
+                  >
+                    <option value="low">Niedrig</option>
+                    <option value="medium">Mittel</option>
+                    <option value="high">Hoch</option>
+                    <option value="critical">Kritisch</option>
+                  </select>
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="task-status" className="text-gray-700 dark:text-gray-200">
+                    Status
+                  </Label>
+                  <select
+                    id="task-status"
+                    value={newTask.status}
+                    onChange={(e) => setNewTask({ ...newTask, status: e.target.value as TaskStatus })}
+                    className="w-full h-10 px-3 rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-white"
+                  >
+                    <option value="todo">To Do</option>
+                    <option value="in_progress">In Progress</option>
+                    <option value="done">Done</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="task-deadline" className="text-gray-700 dark:text-gray-200">
+                  Deadline
+                </Label>
+                <Input
+                  id="task-deadline"
+                  type="date"
+                  value={newTask.deadline}
+                  onChange={(e) => setNewTask({ ...newTask, deadline: e.target.value })}
+                />
+              </div>
+            </div>
+          </ModalBody>
+          <ModalFooter>
+            <Button variant="outline" onClick={() => setIsCreateModalOpen(false)}>
+              Abbrechen
+            </Button>
+            <Button onClick={handleCreateTask} disabled={!newTask.title.trim()}>
+              Task erstellen
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </div>
   );
 }
