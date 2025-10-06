@@ -20,7 +20,7 @@ export default function ProjectsLayout({ children }: { children: React.ReactNode
   }
 
   return (
-    <div className="flex h-screen overflow-hidden bg-gray-950">
+    <div className="flex h-screen overflow-hidden bg-gray-50 dark:bg-gray-950">
       <div className="w-64 flex-shrink-0">
         <Sidebar />
       </div>

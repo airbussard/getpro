@@ -46,14 +46,14 @@ export function Sidebar() {
   if (!currentUser) return null;
 
   return (
-    <div className="flex flex-col h-full bg-gray-900 border-r border-gray-800">
+    <div className="flex flex-col h-full bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-800">
       {/* Logo */}
-      <div className="p-6 border-b border-gray-800">
+      <div className="p-6 border-b border-gray-200 dark:border-gray-800">
         <Link href="/dashboard" className="flex items-center gap-2">
           <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center font-bold text-white">
             E
           </div>
-          <span className="text-xl font-bold text-white">getEmergencePro</span>
+          <span className="text-xl font-bold text-gray-900 dark:text-white">getEmergencePro</span>
         </Link>
       </div>
 
@@ -66,8 +66,8 @@ export function Sidebar() {
               <Button
                 variant="ghost"
                 className={cn(
-                  'w-full justify-start text-gray-400 hover:text-white hover:bg-gray-800',
-                  isActive && 'bg-gray-800 text-white'
+                  'w-full justify-start text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800',
+                  isActive && 'bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white'
                 )}
               >
                 <item.icon className="mr-3 h-5 w-5" />
@@ -79,10 +79,10 @@ export function Sidebar() {
       </nav>
 
       {/* User Section */}
-      <div className="p-4 border-t border-gray-800 space-y-2">
+      <div className="p-4 border-t border-gray-200 dark:border-gray-800 space-y-2">
         <Button
           variant="ghost"
-          className="w-full justify-start text-gray-400 hover:text-white hover:bg-gray-800"
+          className="w-full justify-start text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800"
           onClick={toggleTheme}
         >
           {theme === 'dark' ? (
@@ -93,17 +93,17 @@ export function Sidebar() {
           {theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
         </Button>
 
-        <div className="flex items-center gap-3 p-2 rounded-lg bg-gray-800">
+        <div className="flex items-center gap-3 p-2 rounded-lg bg-gray-100 dark:bg-gray-800">
           <Avatar src={currentUser.avatarUrl} fallback={currentUser.fullName} />
           <div className="flex-1 min-w-0">
-            <p className="text-sm font-medium text-white truncate">{currentUser.fullName}</p>
-            <p className="text-xs text-gray-400 truncate">{currentUser.email}</p>
+            <p className="text-sm font-medium text-gray-900 dark:text-white truncate">{currentUser.fullName}</p>
+            <p className="text-xs text-gray-600 dark:text-gray-400 truncate">{currentUser.email}</p>
           </div>
         </div>
 
         <Button
           variant="ghost"
-          className="w-full justify-start text-gray-400 hover:text-white hover:bg-gray-800"
+          className="w-full justify-start text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800"
           onClick={handleLogout}
         >
           <LogOut className="mr-3 h-5 w-5" />
